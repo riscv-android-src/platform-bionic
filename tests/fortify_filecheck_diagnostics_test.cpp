@@ -47,7 +47,7 @@ void test_sprintf() {
   char buf[4];
 
   // NOLINTNEXTLINE(whitespace/line_length)
-  // CLANG: error: call to unavailable function 'sprintf': format string will always overflow destination buffer
+  // CLANG: error: 'sprintf' is unavailable: format string will always overflow destination buffer
   sprintf(buf, "foobar");  // NOLINT(runtime/printf)
 
   // TODO: clang should emit a warning, but doesn't
@@ -58,7 +58,7 @@ void test_snprintf() {
   char buf[4];
 
   // NOLINTNEXTLINE(whitespace/line_length)
-  // CLANG: error: call to unavailable function 'snprintf': format string will always overflow destination buffer
+  // CLANG: error: 'snprintf' is unavailable: format string will always overflow destination buffer
   snprintf(buf, 5, "foobar");  // NOLINT(runtime/printf)
 
   // TODO: clang should emit a warning, but doesn't
@@ -197,10 +197,10 @@ void test_open() {
   // CLANG: error: 'open' called with O_CREAT or O_TMPFILE, but missing mode
   open("/dev/null", O_TMPFILE);
 
-  // CLANG: error: call to unavailable function 'open': too many arguments
+  // CLANG: error: 'open' is unavailable: too many arguments
   open("/dev/null", O_CREAT, 0, 0);
 
-  // CLANG: error: call to unavailable function 'open': too many arguments
+  // CLANG: error: 'open' is unavailable: too many arguments
   open("/dev/null", O_TMPFILE, 0, 0);
 
   // CLANG: warning: 'open' has superfluous mode bits; missing O_CREAT?

@@ -114,6 +114,22 @@
 #define TLS_SLOT_BIONIC_TLS       9
 #define MAX_TLS_SLOT              9 // update this value when reserving a slot
 
+#elif __riscv_xlen == 64
+
+#define MIN_TLS_SLOT              -10
+
+#define TLS_SLOT_SELF             -10
+#define TLS_SLOT_THREAD_ID        -9
+#define TLS_SLOT_APP              -8 // was historically used for errno
+#define TLS_SLOT_OPENGL           -7
+#define TLS_SLOT_OPENGL_API       -6
+#define TLS_SLOT_STACK_GUARD      -5
+#define TLS_SLOT_SANITIZER        -4 // was historically used for dlerror
+#define TLS_SLOT_ART_THREAD_SELF  -3
+#define TLS_SLOT_DTV              -2
+#define TLS_SLOT_BIONIC_TLS       -1
+#define MAX_TLS_SLOT              -1 // update this value when reserving a slot
+
 #endif
 
 #define BIONIC_TLS_SLOTS (MAX_TLS_SLOT - MIN_TLS_SLOT + 1)

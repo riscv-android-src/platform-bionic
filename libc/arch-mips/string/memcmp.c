@@ -33,7 +33,7 @@
 #include <string.h>
 #include <stdint.h>
 
-#define ENABLE_PREFETCH 1
+#define ENABLE_PREFETCH 0
 
 #define STRNG(X) #X
 #define PREFETCH(src_ptr, offset)  \

@@ -2404,7 +2404,11 @@ bool do_dlsym(void* handle,
                  sym_name, found->get_realpath());
           return false;
         }
+#ifdef __riscv
+        const TlsIndex ti { tls_module->module_id, sym->st_value - 0x800 };
+#else
         const TlsIndex ti { tls_module->module_id, sym->st_value };
+#endif
         *symbol = TLS_GET_ADDR(&ti);
       } else {
         *symbol = reinterpret_cast<void*>(found->resolve_symbol_address(sym));
@@ -3138,7 +3142,11 @@ bool soinfo::relocate(const VersionTracker& version_tracker, ElfRelIteratorT&& r
         TRACE_TYPE(RELO, "RELO TLS_DTPREL %16p <- %16p %s\n",
                    reinterpret_cast<void*>(reloc),
                    reinterpret_cast<void*>(sym_addr + addend), sym_name);
+#ifdef __riscv
+	*reinterpret_cast<ElfW(Addr)*>(reloc) = sym_addr + addend - 0x800;
+#else
         *reinterpret_cast<ElfW(Addr)*>(reloc) = sym_addr + addend;
+#endif
         break;
 #endif  // !defined(__aarch64__)
 
