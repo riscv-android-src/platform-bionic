@@ -32,6 +32,8 @@
 # define __get_tls() ({ void** __val; __asm__("mrs %0, tpidr_el0" : "=r"(__val)); __val; })
 #elif defined(__arm__)
 # define __get_tls() ({ void** __val; __asm__("mrc p15, 0, %0, c13, c0, 3" : "=r"(__val)); __val; })
+#elif __riscv_xlen == 64
+# define __get_tls() ({ void** __val; __asm__("mv %0, tp" : "=r"(__val)); __val; })
 #elif defined(__i386__)
 # define __get_tls() ({ void** __val; __asm__("movl %%gs:0, %0" : "=r"(__val)); __val; })
 #elif defined(__x86_64__)

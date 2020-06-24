@@ -230,6 +230,8 @@ TEST(setjmp, setjmp_fp_registers) {
 #define __JB_SIGFLAG 8
 #elif defined(__x86_64)
 #define __JB_SIGFLAG 8
+#elif __riscv_xlen == 64
+#define __JB_SIGFLAG 0
 #endif
 
 TEST_F(setjmp_DeathTest, setjmp_cookie) {

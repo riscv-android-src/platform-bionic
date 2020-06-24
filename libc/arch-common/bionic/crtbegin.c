@@ -52,6 +52,8 @@ __used static void _start_main(void* raw_args) {
 __asm__(PRE "bti j; mov x29,#0; mov x30,#0; mov x0,sp; b _start_main" POST);
 #elif defined(__arm__)
 __asm__(PRE "mov fp,#0; mov lr,#0; mov r0,sp; b _start_main" POST);
+#elif __riscv_xlen == 64
+__asm__(PRE "mv a0,sp; jal _start_main" POST);
 #elif defined(__i386__)
 __asm__(PRE
         "xorl %ebp,%ebp; movl %esp,%eax; andl $~0xf,%esp; subl $12,%esp; pushl %eax;"

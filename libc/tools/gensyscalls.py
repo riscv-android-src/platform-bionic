@@ -15,7 +15,7 @@ import sys
 import tempfile
 
 
-SupportedArchitectures = [ "arm", "arm64", "x86", "x86_64" ]
+SupportedArchitectures = [ "arm", "arm64", "riscv64", "x86", "x86_64" ]
 
 syscall_stub_header = \
 """
@@ -78,6 +78,25 @@ arm64_call = syscall_stub_header + """\
 END(%(func)s)
 """
 
+
+#
+#
+# RISC-V64 assembler templates for each syscall stub
+#
+
+riscv64_call = syscall_stub_header + """\
+    li      a7, %(__NR_name)s
+    scall
+
+    li      a7, -MAX_ERRNO
+    bgtu    a0, a7, 1f;
+
+    ret
+1:
+    neg     a0, a0
+    j       __set_errno_internal
+END(%(func)s)
+"""
 
 #
 # x86 assembler templates for each syscall stub
@@ -227,6 +246,9 @@ def arm_eabi_genstub(syscall):
 def arm64_genstub(syscall):
     return arm64_call % syscall
 
+
+def riscv64_genstub(syscall):
+    return riscv64_call % syscall
 
 def x86_genstub(syscall):
     result     = syscall_stub_header % syscall

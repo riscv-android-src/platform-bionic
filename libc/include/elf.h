@@ -34,6 +34,7 @@
 #include <bits/elf_arm.h>
 #include <bits/elf_arm64.h>
 #include <bits/elf_x86.h>
+#include <bits/elf_riscv64.h>
 #include <bits/elf_x86_64.h>
 #include <linux/elf.h>
 #include <linux/elf-em.h>

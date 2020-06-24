@@ -2287,7 +2287,11 @@ bool do_dlsym(void* handle,
           return false;
         }
         void* tls_block = get_tls_block_for_this_thread(tls_module, /*should_alloc=*/true);
+        #ifndef __riscv
         *symbol = static_cast<char*>(tls_block) + sym->st_value;
+        #else
+        *symbol = static_cast<char*>(tls_block) + sym->st_value - 0x800;
+        #endif
       } else {
         *symbol = reinterpret_cast<void*>(found->resolve_symbol_address(sym));
       }

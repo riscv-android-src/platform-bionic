@@ -31,7 +31,7 @@
 
 #if defined __arm__ || defined __aarch64__
 
-#define DUAL_ARCH
+//#define DUAL_ARCH
 #define PRIMARY_ARCH AUDIT_ARCH_AARCH64
 static const struct sock_filter* primary_app_filter = arm64_app_filter;
 static const size_t primary_app_filter_size = arm64_app_filter_size;
@@ -75,6 +75,27 @@ static const size_t secondary_system_filter_size = x86_system_filter_size;
 
 static const long secondary_setresgid = __x86_setresgid;
 static const long secondary_setresuid = __x86_setresuid;
+#elif __riscv_xlen == 64
+#define PRIMARY_ARCH AUDIT_ARCH_RISCV64
+static const struct sock_filter* primary_app_filter = riscv64_app_filter;
+static const size_t primary_app_filter_size = riscv64_app_filter_size;
+static const struct sock_filter* primary_app_zygote_filter = riscv64_app_zygote_filter;
+static const size_t primary_app_zygote_filter_size = riscv64_app_zygote_filter_size;
+static const struct sock_filter* primary_system_filter = riscv64_system_filter;
+static const size_t primary_system_filter_size = riscv64_system_filter_size;
+
+static const long primary_setresgid = __riscv64_setresgid;
+static const long primary_setresuid = __riscv64_setresuid;
+#define SECONDARY_ARCH AUDIT_ARCH_RISCV64
+static const struct sock_filter* secondary_app_filter = riscv64_app_filter;
+static const size_t secondary_app_filter_size = riscv64_app_filter_size;
+static const struct sock_filter* secondary_app_zygote_filter = riscv64_app_zygote_filter;
+static const size_t secondary_app_zygote_filter_size = riscv64_app_zygote_filter_size;
+static const struct sock_filter* secondary_system_filter = riscv64_system_filter;
+static const size_t secondary_system_filter_size = riscv64_system_filter_size;
+
+static const long secondary_setresgid = __riscv64_setresgid;
+static const long secondary_setresuid = __riscv64_setresuid;
 #else
 #error No architecture was defined!
 #endif

@@ -196,6 +196,17 @@ TEST(fenv, feenableexcept_fegetexcept) {
   ASSERT_EQ(0, fegetexcept());
   ASSERT_EQ(-1, feenableexcept(FE_DENORMAL));
   ASSERT_EQ(0, fegetexcept());
+#elif defined(__riscv)
+  ASSERT_EQ(-1, feenableexcept(FE_INVALID));
+  ASSERT_EQ(0, fegetexcept());
+  ASSERT_EQ(-1, feenableexcept(FE_DIVBYZERO));
+  ASSERT_EQ(0, fegetexcept());
+  ASSERT_EQ(-1, feenableexcept(FE_OVERFLOW));
+  ASSERT_EQ(0, fegetexcept());
+  ASSERT_EQ(-1, feenableexcept(FE_UNDERFLOW));
+  ASSERT_EQ(0, fegetexcept());
+  ASSERT_EQ(-1, feenableexcept(FE_INEXACT));
+  ASSERT_EQ(0, fegetexcept());
 #else
   // We can't recover from SIGFPE, so sacrifice a child...
   pid_t pid = fork();
