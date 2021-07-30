@@ -462,6 +462,9 @@ def main(arch, syscall_file):
         if "arm64" in syscall:
             syscall["asm-arm64"] = add_footer(64, arm64_genstub(syscall), syscall)
 
+        if "riscv64" in syscall:
+            syscall["asm-riscv64"] = add_footer(64, riscv64_genstub(syscall), syscall)
+
         if "x86" in syscall:
             if syscall["socketcall_id"] >= 0:
                 syscall["asm-x86"] = add_footer(32, x86_genstub_socketcall(syscall), syscall)
