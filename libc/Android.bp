@@ -2422,7 +2422,6 @@ cc_object {
         "kernel/uapi/asm-riscv",
         "kernel/uapi",
     ],
-    cflags: ["-D__SIZEOF_POINTER__=8", "-D__LP64__"]
 }
 
 cc_object {
