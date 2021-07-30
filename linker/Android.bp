@@ -386,6 +386,11 @@ cc_binary {
                 profile_file: "bionic/linker_arm_arm64.profdata",
             },
         },
+        android_riscv64: {
+            pgo: {
+                profile_file: "bionic/linker_riscv_riscv64.profdata",
+            },
+        },
         android_arm: {
             pgo: {
                 profile_file: "bionic/linker_arm_arm64.profdata",
