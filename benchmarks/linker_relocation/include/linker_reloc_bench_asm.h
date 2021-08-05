@@ -42,6 +42,13 @@
 #define DATA_WORD(val) .quad val
 #define MAIN .globl main; main: mov w0, wzr; ret
 
+#elif defined(__riscv)
+//todo: add riscv implementation
+#define GOT_RELOC(sym) 
+#define CALL(sym) 
+#define DATA_WORD(val) 
+#define MAIN 
+
 #elif defined(__i386__)
 
 #define GOT_RELOC(sym) .long sym@got

@@ -79,7 +79,9 @@ static inline bool running_with_hwasan() {
 
 static inline bool running_with_native_bridge() {
 #if defined(__BIONIC__)
-  static const prop_info* pi = __system_property_find("ro.dalvik.vm.isa." ABI_STRING);
+  //static const prop_info* pi = __system_property_find("ro.dalvik.vm.isa." ABI_STRING);
+  //fixme: if upgarde clang from 11 to 12
+  static const prop_info* pi = __system_property_find("ro.dalvik.vm.isa.riscv64");
   return pi != nullptr;
 #endif
   return false;
