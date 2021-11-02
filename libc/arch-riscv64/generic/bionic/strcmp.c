@@ -1,5 +1,5 @@
 int
-strcmp (const char *s1, const char *s2)
+strcmp_generic (const char *s1, const char *s2)
 {
   int ret;
 

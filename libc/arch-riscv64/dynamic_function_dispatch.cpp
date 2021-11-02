@@ -47,24 +47,14 @@ DEFINE_IFUNC_FOR(__memset_chk) {
     RETURN_FUNC(__memset_chk_func, __memset_chk_generic);
 }
 
-typedef void* memmove_func(void* __dst, const void* __src, size_t __n);
-DEFINE_IFUNC_FOR(memmove) {
-    RETURN_FUNC(memmove_func, memmove_generic);
-}
-
 typedef void* memcpy_func(void*, const void*, size_t);
 DEFINE_IFUNC_FOR(memcpy) {
     RETURN_FUNC(memcpy_func, memcpy_generic);
 }
 
-typedef char* strcpy_func(char* __dst, const char* __src);
-DEFINE_IFUNC_FOR(strcpy) {
-    RETURN_FUNC(strcpy_func, strcpy_generic);
-}
-
-typedef char* strncpy_func(char* __dst, const char* __src, size_t __n);
-DEFINE_IFUNC_FOR(strncpy) {
-    RETURN_FUNC(strncpy_func, strncpy_generic);
+typedef void* memmove_func(void*, const void*, size_t);
+DEFINE_IFUNC_FOR(memmove) {
+    RETURN_FUNC(memmove_func, memmove_generic);
 }
 
 typedef size_t strlen_func(const char* __s);
@@ -72,54 +62,9 @@ DEFINE_IFUNC_FOR(strlen) {
     RETURN_FUNC(strlen_func, strlen_generic);
 }
 
-typedef int wmemcmp_func(const wchar_t* __lhs, const wchar_t* __rhs, size_t __n);
-DEFINE_IFUNC_FOR(wmemcmp) {
-    RETURN_FUNC(wmemcmp_func, wmemcmp_generic);
-}
-
-typedef int wmemset_func(const wchar_t* __lhs, const wchar_t* __rhs, size_t __n);
-DEFINE_IFUNC_FOR(wmemset) {
-    RETURN_FUNC(wmemset_func, wmemset_generic);
-}
-
 typedef int strcmp_func(const char* __lhs, const char* __rhs);
 DEFINE_IFUNC_FOR(strcmp) {
     RETURN_FUNC(strcmp_func, strcmp_generic);
-}
-
-typedef int strncmp_func(const char* __lhs, const char* __rhs, size_t __n);
-DEFINE_IFUNC_FOR(strncmp) {
-    RETURN_FUNC(strncmp_func, strncmp_generic);
-}
-
-typedef char* strcat_func(char* __dst, const char* __src);
-DEFINE_IFUNC_FOR(strcat) {
-    RETURN_FUNC(strcat_func, strcat_generic);
-}
-
-typedef char* strncat_func(char* __dst, const char* __src, size_t __n);
-DEFINE_IFUNC_FOR(strncat) {
-    RETURN_FUNC(strncat_func, strncat_generic);
-}
-
-typedef size_t strlcat_func(char *dst, const char *src, size_t dsize);
-DEFINE_IFUNC_FOR(strlcat) {
-    RETURN_FUNC(strlcat_func, strlcat_generic);
-}
-
-typedef size_t strlcpy_func(char *dst, const char *src, size_t dsize);
-DEFINE_IFUNC_FOR(strlcpy) {
-    RETURN_FUNC(strlcpy_func, strlcpy_generic);
-}
-
-typedef wchar_t* wcscat_func(wchar_t *s1, const wchar_t *s2);
-DEFINE_IFUNC_FOR(wcscat) {
-    RETURN_FUNC(wcscat_func, wcscat_generic);
-}
-
-typedef wchar_t* wcscpy_func(wchar_t *s1, const wchar_t *s2);
-DEFINE_IFUNC_FOR(wcscpy) {
-    RETURN_FUNC(wcscpy_func, wcscpy_generic);
 }
 
 }  // extern "C"

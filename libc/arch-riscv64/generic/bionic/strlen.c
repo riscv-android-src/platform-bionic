@@ -1,7 +1,7 @@
 #include <stdint.h>
 
 size_t
-strlen (const char *str)
+strlen_generic (const char *str)
 {
   const char *char_ptr;
   const unsigned long int *longword_ptr;

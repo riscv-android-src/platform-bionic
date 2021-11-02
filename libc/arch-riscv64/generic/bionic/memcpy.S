@@ -5,7 +5,7 @@
 #  define LABLE_ALIGN   \
         .balignw 16, 0x00000013
 
-ENTRY(memcpy)
+ENTRY(memcpy_generic)
 .L_to_memcpy:
         /* Test if len less than 8 bytes.  */
         mv      t6, a0
@@ -106,9 +106,9 @@ ENTRY(memcpy)
         bnez    a3, .L_copy_by_byte
         /* Check whether the src is aligned.  */
         j		.L_dest_aligned
-END(memcpy)
+END(memcpy_generic)
 
-ENTRY(memmove)
+ENTRY(memmove_generic)
 	sub	a3, a0, a1
 	bgeu	a3, a2, .L_to_memcpy
 
@@ -213,4 +213,4 @@ ENTRY(memmove)
 	bnez    a3, .L_copy_by_byte_m
 	/* Check whether the src is aligned.  */
 	j	.L_dest_aligned_m
-END(memmove)
+END(memmove_generic)

@@ -1,7 +1,7 @@
 #include <stdint.h>
 
 char *
-strchr (const char *s, int c_in)
+strchr_generic (const char *s, int c_in)
 {
   const unsigned char *char_ptr;
   const unsigned long int *longword_ptr;
