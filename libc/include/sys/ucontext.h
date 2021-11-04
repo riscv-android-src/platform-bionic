@@ -316,6 +316,7 @@ typedef struct ucontext {
 #elif __riscv_xlen == 64
 
 #define NGREG 32
+#define REG_PC 0
 
 typedef unsigned long long greg_t;
 typedef greg_t gregset_t[NGREG];
