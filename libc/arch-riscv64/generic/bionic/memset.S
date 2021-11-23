@@ -5,7 +5,7 @@
 #  define LABLE_ALIGN   \
         .balignl 16, 0x00000013
 
-ENTRY(memset)
+ENTRY(memset_generic)
         /* Test if len less than 8 bytes.  */
         mv      t6, a0
         sltiu   a4, a2, 8
@@ -100,4 +100,4 @@ ENTRY(memset)
         bnez    a4, .L_set_by_byte
         /* Check whether the src is aligned.  */
         j               .L_dest_aligned
-END(memset)
+END(memset_generic)

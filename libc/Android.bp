@@ -652,6 +652,12 @@ cc_library_static {
                 "upstream-openbsd/lib/libc/string/strncmp.c",
             ],
         },
+        riscv64: {
+            srcs: [
+                "upstream-openbsd/lib/libc/string/strcmp.c",
+                "upstream-openbsd/lib/libc/string/strlen.c",
+			],
+		},
         x86: {
             exclude_srcs: [
                 "upstream-openbsd/lib/libc/string/memchr.c",
@@ -900,10 +906,6 @@ cc_library_static {
         riscv64: {
             srcs: [
                 "arch-riscv64/generic/bionic/memcmp.S",
-                "arch-riscv64/generic/bionic/strnlen.c",
-                "arch-riscv64/generic/bionic/strchr.c",
-                "arch-riscv64/generic/bionic/strcmp.c",
-                "arch-riscv64/generic/bionic/strlen.c",
                 "arch-riscv64/generic/bionic/memset_chk.c",
                 "arch-riscv64/generic/bionic/memset.S",
                 "arch-riscv64/generic/bionic/memcpy.S",
@@ -1536,6 +1538,9 @@ cc_library_static {
         },
         arm64: {
             srcs: ["arch-arm64/static_function_dispatch.S"],
+        },
+        riscv64: {
+            srcs: ["arch-riscv64/static_function_dispatch.S"],
         },
     },
 }

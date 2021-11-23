@@ -2,7 +2,7 @@
 
 #include <private/bionic_asm.h>
 
-ENTRY(memcmp)
+ENTRY(memcmp_generic)
         addi    a2, a2, -8
         bltz    a2, .L_less_than_8
         ld      a4, 0(a0)
@@ -112,4 +112,4 @@ ENTRY(memcmp)
 .L_ret_0:
         li      a0, 0
         ret
-END(memcmp)
+END(memcmp_generic)
