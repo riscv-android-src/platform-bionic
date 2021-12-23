@@ -72,7 +72,7 @@ static void call_array(init_func_t** list, int argc, char* argv[], char* envp[])
   }
 }
 
-#if defined(__aarch64__) || defined(__x86_64__)
+#if defined(__aarch64__) || defined(__x86_64__) || (defined(__riscv) && (__riscv_xlen == 64))
 extern __LIBC_HIDDEN__ __attribute__((weak)) ElfW(Rela) __rela_iplt_start[], __rela_iplt_end[];
 
 static void call_ifunc_resolvers() {
