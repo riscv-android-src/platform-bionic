@@ -30,7 +30,7 @@
 
 #define FUNCTION_DELEGATE(name, impl) \
 ENTRY(name); \
-    call impl; \
+    call t0,impl; \
 END(name)
 
 FUNCTION_DELEGATE(memmove, memmove_generic)
