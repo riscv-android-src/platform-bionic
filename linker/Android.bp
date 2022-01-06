@@ -57,6 +57,9 @@ cc_object {
         arm64: {
             srcs: ["arch/arm64/begin.S"],
         },
+        riscv64: {
+            srcs: ["arch/riscv64/begin.S"],
+        },
         x86_64: {
             srcs: ["arch/x86_64/begin.S"],
         },
@@ -243,6 +246,7 @@ cc_defaults {
     arch: {
         arm:    { version_script: "linker.arm.map"      },
         arm64:  { version_script: "linker.generic.map"  },
+        riscv64:{ version_script: "linker.generic.map"  },
         x86:    { version_script: "linker.generic.map"  },
         x86_64: { version_script: "linker.generic.map"  },
     },
@@ -261,6 +265,9 @@ cc_defaults {
         },
         arm64: {
             srcs: [":linker_sources_arm64"],
+        },
+        riscv64: {
+            srcs: [":linker_sources_riscv64"],
         },
         x86: {
             srcs: [":linker_sources_x86"],
