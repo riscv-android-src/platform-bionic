@@ -18,8 +18,6 @@
  ****************************************************************************/
 #ifndef _UAPI_ASM_RISCV_BITSPERLONG_H
 #define _UAPI_ASM_RISCV_BITSPERLONG_H
-// genseccomp.py to generate the syscall without __SIZEOF_POINTER__ dfined
-//#define __BITS_PER_LONG (__SIZEOF_POINTER__ * 8)
-#define __BITS_PER_LONG 64
+#define __BITS_PER_LONG (__SIZEOF_POINTER__ * 8)
 #include <asm-generic/bitsperlong.h>
 #endif

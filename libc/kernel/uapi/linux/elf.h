@@ -360,11 +360,13 @@ typedef struct elf64_shdr {
 #define NT_ARM_PACA_KEYS 0x407
 #define NT_ARM_PACG_KEYS 0x408
 #define NT_ARM_TAGGED_ADDR_CTRL 0x409
+#define NT_ARM_PAC_ENABLED_KEYS 0x40a
 #define NT_ARC_V2 0x600
 #define NT_VMCOREDD 0x700
 #define NT_MIPS_DSP 0x800
 #define NT_MIPS_FP_MODE 0x801
 #define NT_MIPS_MSA 0x802
+#define NT_RISCV_VECTOR 0x900
 #define NT_GNU_PROPERTY_TYPE_0 5
 typedef struct elf32_note {
   Elf32_Word n_namesz;

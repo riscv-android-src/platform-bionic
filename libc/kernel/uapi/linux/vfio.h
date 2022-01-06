@@ -29,8 +29,6 @@
 #define VFIO_TYPE1_NESTING_IOMMU 6
 #define VFIO_SPAPR_TCE_v2_IOMMU 7
 #define VFIO_NOIOMMU_IOMMU 8
-#define VFIO_UNMAP_ALL 9
-#define VFIO_UPDATE_VADDR 10
 #define VFIO_TYPE (';')
 #define VFIO_BASE 100
 struct vfio_info_cap_header {
@@ -214,7 +212,6 @@ enum {
 enum {
   VFIO_CCW_IO_IRQ_INDEX,
   VFIO_CCW_CRW_IRQ_INDEX,
-  VFIO_CCW_REQ_IRQ_INDEX,
   VFIO_CCW_NUM_IRQS
 };
 struct vfio_pci_dependent_device {
@@ -322,7 +319,6 @@ struct vfio_iommu_type1_dma_map {
   __u32 flags;
 #define VFIO_DMA_MAP_FLAG_READ (1 << 0)
 #define VFIO_DMA_MAP_FLAG_WRITE (1 << 1)
-#define VFIO_DMA_MAP_FLAG_VADDR (1 << 2)
   __u64 vaddr;
   __u64 iova;
   __u64 size;
@@ -337,8 +333,6 @@ struct vfio_iommu_type1_dma_unmap {
   __u32 argsz;
   __u32 flags;
 #define VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP (1 << 0)
-#define VFIO_DMA_UNMAP_FLAG_ALL (1 << 1)
-#define VFIO_DMA_UNMAP_FLAG_VADDR (1 << 2)
   __u64 iova;
   __u64 size;
   __u8 data[];

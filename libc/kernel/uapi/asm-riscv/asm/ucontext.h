@@ -16,8 +16,8 @@
  ***
  ****************************************************************************
  ****************************************************************************/
-#ifndef _UAPI__ASM_UCONTEXT_H
-#define _UAPI__ASM_UCONTEXT_H
+#ifndef _UAPI_ASM_RISCV_UCONTEXT_H
+#define _UAPI_ASM_RISCV_UCONTEXT_H
 #include <linux/types.h>
 struct ucontext {
   unsigned long uc_flags;

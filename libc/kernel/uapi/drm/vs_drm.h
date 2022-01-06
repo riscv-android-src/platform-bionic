@@ -16,31 +16,40 @@
  ***
  ****************************************************************************
  ****************************************************************************/
-#ifndef _UAPI_LINUX_SURFACE_AGGREGATOR_CDEV_H
-#define _UAPI_LINUX_SURFACE_AGGREGATOR_CDEV_H
-#include <linux/ioctl.h>
-#include <linux/types.h>
-enum ssam_cdev_request_flags {
-  SSAM_CDEV_REQUEST_HAS_RESPONSE = 0x01,
-  SSAM_CDEV_REQUEST_UNSEQUENCED = 0x02,
+#ifndef __VS_DRM_H__
+#define __VS_DRM_H__
+#include "drm.h"
+enum drm_vs_degamma_mode {
+  VS_DEGAMMA_DISABLE = 0,
+  VS_DEGAMMA_BT709 = 1,
+  VS_DEGAMMA_BT2020 = 2,
 };
-struct ssam_cdev_request {
-  __u8 target_category;
-  __u8 target_id;
-  __u8 command_id;
-  __u8 instance_id;
-  __u16 flags;
-  __s16 status;
-  struct {
-    __u64 data;
-    __u16 length;
-    __u8 __pad[6];
-  } payload;
-  struct {
-    __u64 data;
-    __u16 length;
-    __u8 __pad[6];
-  } response;
-} __attribute__((__packed__));
-#define SSAM_CDEV_REQUEST _IOWR(0xA5, 1, struct ssam_cdev_request)
+enum drm_vs_sync_dc_mode {
+  VS_SINGLE_DC = 0,
+  VS_MULTI_DC_PRIMARY = 1,
+  VS_MULTI_DC_SECONDARY = 2,
+};
+enum drm_vs_mmu_prefetch_mode {
+  VS_MMU_PREFETCH_DISABLE = 0,
+  VS_MMU_PREFETCH_ENABLE = 1,
+};
+struct drm_vs_watermark {
+  __u32 watermark;
+  __u8 qos_low;
+  __u8 qos_high;
+};
+struct drm_vs_color_mgmt {
+  __u32 colorkey;
+  __u32 colorkey_high;
+  __u32 clear_value;
+  bool clear_enable;
+  bool transparency;
+};
+struct drm_vs_roi {
+  bool enable;
+  __u16 roi_x;
+  __u16 roi_y;
+  __u16 roi_w;
+  __u16 roi_h;
+};
 #endif

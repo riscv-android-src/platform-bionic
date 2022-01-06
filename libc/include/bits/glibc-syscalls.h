@@ -162,9 +162,6 @@
 #if defined(__NR_epoll_pwait)
   #define SYS_epoll_pwait __NR_epoll_pwait
 #endif
-#if defined(__NR_epoll_pwait2)
-  #define SYS_epoll_pwait2 __NR_epoll_pwait2
-#endif
 #if defined(__NR_epoll_wait)
   #define SYS_epoll_wait __NR_epoll_wait
 #endif
@@ -606,9 +603,6 @@
 #if defined(__NR_mount)
   #define SYS_mount __NR_mount
 #endif
-#if defined(__NR_mount_setattr)
-  #define SYS_mount_setattr __NR_mount_setattr
-#endif
 #if defined(__NR_move_mount)
   #define SYS_move_mount __NR_move_mount
 #endif
@@ -884,9 +878,6 @@
 #endif
 #if defined(__NR_restart_syscall)
   #define SYS_restart_syscall __NR_restart_syscall
-#endif
-#if defined(__NR_riscv_flush_icache)
-  #define SYS_riscv_flush_icache __NR_riscv_flush_icache
 #endif
 #if defined(__NR_rmdir)
   #define SYS_rmdir __NR_rmdir
