@@ -75,6 +75,7 @@ static const size_t secondary_system_filter_size = x86_system_filter_size;
 
 static const long secondary_setresgid = __x86_setresgid;
 static const long secondary_setresuid = __x86_setresuid;
+
 #elif __riscv_xlen == 64
 #define PRIMARY_ARCH AUDIT_ARCH_RISCV64
 static const struct sock_filter* primary_app_filter = riscv64_app_filter;
@@ -96,6 +97,7 @@ static const size_t secondary_system_filter_size = riscv64_system_filter_size;
 
 static const long secondary_setresgid = __riscv64_setresgid;
 static const long secondary_setresuid = __riscv64_setresuid;
+
 #else
 #error No architecture was defined!
 #endif
