@@ -40,7 +40,7 @@
 
 __BEGIN_DECLS
 
-#if defined(__aarch64__) || __riscv_xlen == 64
+#if defined(__aarch64__) || (defined(__riscv) && (__riscv_xlen == 64))
 #define __STAT64_BODY \
   dev_t st_dev; \
   ino_t st_ino; \

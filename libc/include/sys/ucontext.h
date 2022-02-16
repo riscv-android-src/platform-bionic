@@ -313,7 +313,7 @@ typedef struct ucontext {
   struct _libc_fpstate __fpregs_mem;
 } ucontext_t;
 
-#elif __riscv_xlen == 64
+#elif (defined(__riscv) && (__riscv_xlen == 64))
 
 #define REG_PC 0
 #define REG_RA 1

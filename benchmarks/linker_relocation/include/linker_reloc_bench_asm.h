@@ -42,7 +42,7 @@
 #define DATA_WORD(val) .quad val
 #define MAIN .globl main; main: mov w0, wzr; ret
 
-#elif defined(__riscv)
+#elif (defined(__riscv) && (__riscv_xlen == 64))
 //todo: add riscv implementation
 #define GOT_RELOC(sym) 
 #define CALL(sym) 

@@ -114,7 +114,7 @@
 #define TLS_SLOT_BIONIC_TLS       9
 #define MAX_TLS_SLOT              9 // update this value when reserving a slot
 
-#elif __riscv_xlen == 64
+#elif (defined(__riscv) && (__riscv_xlen == 64))
 
 #define MIN_TLS_SLOT              -10
 

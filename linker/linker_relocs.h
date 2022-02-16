@@ -86,7 +86,7 @@
 #define R_GENERIC_TLS_TPREL     R_X86_64_TPOFF64
 #define R_GENERIC_TLSDESC       R_X86_64_TLSDESC
 
-#elif __riscv_xlen == 64
+#elif (defined(__riscv) && (__riscv_xlen == 64))
 
 #define R_GENERIC_JUMP_SLOT     R_RISCV_JUMP_SLOT
 #define R_GENERIC_ABSOLUTE      R_RISCV_64

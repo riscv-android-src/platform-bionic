@@ -108,7 +108,7 @@ static _Unwind_Reason_Code trace_function(__unwind_context* context, void* arg) 
 #elif defined(__aarch64__)
     // All instructions are 4 bytes long, skip back one instruction.
     ip -= 4;
-#elif __riscv_xlen == 64
+#elif (defined(__riscv) && (__riscv_xlen == 64))
     if (ip >= 4096) {
       uint16_t value = (*reinterpret_cast<uint16_t*>(ip - 2)) & 3;
       if (value == 0x3) {
