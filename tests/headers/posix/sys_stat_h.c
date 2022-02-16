@@ -73,7 +73,7 @@ static void sys_stat_h() {
   STRUCT_MEMBER(struct stat, int, st_blksize);
 #elif defined(__x86_64__)
   STRUCT_MEMBER(struct stat, long, st_blksize);
-#elif defined(__riscv)
+#elif (defined(__riscv) && (__riscv_xlen == 64))
   STRUCT_MEMBER(struct stat, int, st_blksize);
 #else
   STRUCT_MEMBER(struct stat, unsigned long, st_blksize);

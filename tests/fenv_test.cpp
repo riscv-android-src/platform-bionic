@@ -196,7 +196,7 @@ TEST(fenv, feenableexcept_fegetexcept) {
   ASSERT_EQ(0, fegetexcept());
   ASSERT_EQ(-1, feenableexcept(FE_DENORMAL));
   ASSERT_EQ(0, fegetexcept());
-#elif defined(__riscv)
+#elif (defined(__riscv) && (__riscv_xlen == 64))
   ASSERT_EQ(-1, feenableexcept(FE_INVALID));
   ASSERT_EQ(0, fegetexcept());
   ASSERT_EQ(-1, feenableexcept(FE_DIVBYZERO));

@@ -805,7 +805,7 @@ TEST(signal, rt_tgsigqueueinfo) {
 TEST(signal, sigset_size) {
   // The setjmp implementations assume that sigset_t can fit in a
   // long. This is true because ARM and x86 have broken rt signal support,
-  // and AArch64 and x86_64 both have a SIGRTMAX defined as 64.
+  // and AArch64 and x86_64 and RISCV64 all have a SIGRTMAX defined as 64.
 #if defined(__BIONIC__)
   static_assert(sizeof(sigset_t) <= sizeof(long), "sigset_t doesn't fit in a long");
 #endif
