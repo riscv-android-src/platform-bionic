@@ -73,7 +73,6 @@
 #define PORT_S3C2400 67
 #define PORT_M32R_SIO 68
 #define PORT_JSM 69
-#define PORT_PNX8XXX 70
 #define PORT_SUNHV 72
 #define PORT_S3C2412 73
 #define PORT_UARTLITE 74
@@ -101,7 +100,6 @@
 #define PORT_VT8500 97
 #define PORT_XUARTPS 98
 #define PORT_AR933X 99
-#define PORT_EFMUART 100
 #define PORT_ARC 101
 #define PORT_RP2 102
 #define PORT_LPUART 103

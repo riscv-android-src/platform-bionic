@@ -45,13 +45,6 @@ struct tee_ioctl_shm_alloc_data {
   __s32 id;
 };
 #define TEE_IOC_SHM_ALLOC _IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE + 1, struct tee_ioctl_shm_alloc_data)
-struct tee_ioctl_shm_register_fd_data {
-  __s64 fd;
-  __u64 size;
-  __u32 flags;
-  __s32 id;
-} __aligned(8);
-#define TEE_IOC_SHM_REGISTER_FD _IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE + 8, struct tee_ioctl_shm_register_fd_data)
 struct tee_ioctl_buf_data {
   __u64 buf_ptr;
   __u64 buf_len;

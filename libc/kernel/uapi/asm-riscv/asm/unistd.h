@@ -17,11 +17,10 @@
  ****************************************************************************
  ****************************************************************************/
 #ifdef __LP64__
-#define __ARCH_WANT_RENAMEAT
 #define __ARCH_WANT_NEW_STAT
 #define __ARCH_WANT_SET_GET_RLIMIT
-#endif
 #define __ARCH_WANT_SYS_CLONE3
+#endif
 #include <asm-generic/unistd.h>
 #ifndef __NR_riscv_flush_icache
 #define __NR_riscv_flush_icache (__NR_arch_specific_syscall + 15)

@@ -16,4 +16,28 @@
  ***
  ****************************************************************************
  ****************************************************************************/
-#include <asm-generic/posix_types.h>
+#ifndef _UAPI_LINUX_VDPA_H_
+#define _UAPI_LINUX_VDPA_H_
+#define VDPA_GENL_NAME "vdpa"
+#define VDPA_GENL_VERSION 0x1
+enum vdpa_command {
+  VDPA_CMD_UNSPEC,
+  VDPA_CMD_MGMTDEV_NEW,
+  VDPA_CMD_MGMTDEV_GET,
+  VDPA_CMD_DEV_NEW,
+  VDPA_CMD_DEV_DEL,
+  VDPA_CMD_DEV_GET,
+};
+enum vdpa_attr {
+  VDPA_ATTR_UNSPEC,
+  VDPA_ATTR_MGMTDEV_BUS_NAME,
+  VDPA_ATTR_MGMTDEV_DEV_NAME,
+  VDPA_ATTR_MGMTDEV_SUPPORTED_CLASSES,
+  VDPA_ATTR_DEV_NAME,
+  VDPA_ATTR_DEV_ID,
+  VDPA_ATTR_DEV_VENDOR_ID,
+  VDPA_ATTR_DEV_MAX_VQS,
+  VDPA_ATTR_DEV_MAX_VQ_SIZE,
+  VDPA_ATTR_MAX,
+};
+#endif
