@@ -220,6 +220,7 @@ enum {
   TCP_NLA_TIMEOUT_REHASH,
   TCP_NLA_BYTES_NOTSENT,
   TCP_NLA_EDT,
+  TCP_NLA_TTL,
 };
 #define TCP_MD5SIG_MAXKEYLEN 80
 #define TCP_MD5SIG_FLAG_PREFIX 0x1
@@ -239,6 +240,7 @@ struct tcp_diag_md5sig {
   __be32 tcpm_addr[4];
   __u8 tcpm_key[TCP_MD5SIG_MAXKEYLEN];
 };
+#define TCP_RECEIVE_ZEROCOPY_FLAG_TLB_CLEAN_HINT 0x1
 struct tcp_zerocopy_receive {
   __u64 address;
   __u32 length;
@@ -247,5 +249,10 @@ struct tcp_zerocopy_receive {
   __s32 err;
   __u64 copybuf_address;
   __s32 copybuf_len;
+  __u32 flags;
+  __u64 msg_control;
+  __u64 msg_controllen;
+  __u32 msg_flags;
+  __u32 reserved;
 };
 #endif
