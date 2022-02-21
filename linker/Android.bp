@@ -474,9 +474,6 @@ cc_library {
         x86_64: {
             ldflags: ["-Wl,--exclude-libs=libgcc_eh.a"],
         },
-        riscv64: {
-            version_script: "linker.generic.map",
-        },
     },
 
     srcs: ["ld_android.cpp"],
