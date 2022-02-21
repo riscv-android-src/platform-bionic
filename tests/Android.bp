@@ -207,7 +207,7 @@ cc_prebuilt_test_library_shared {
             srcs: ["prebuilt-elf-files/arm64/libtest_invalid-empty_shdr_table.so"],
         },
         riscv64: {
-            srcs: ["prebuilt-elf-files/arm64/libtest_invalid-empty_shdr_table.so"],
+            srcs: ["prebuilt-elf-files/riscv64/libtest_invalid-empty_shdr_table.so"],
         },
         x86: {
             srcs: ["prebuilt-elf-files/x86/libtest_invalid-empty_shdr_table.so"],

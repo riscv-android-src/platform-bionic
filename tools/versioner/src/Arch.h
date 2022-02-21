@@ -125,6 +125,7 @@ static const std::set<Arch> supported_archs = {
   Arch::arm64,
   Arch::x86,
   Arch::x86_64,
+  Arch::riscv64,
 };
 
 static ArchMap<std::string> arch_targets = {

@@ -1862,6 +1862,7 @@ genrule {
     srcs: ["libc.map.txt"],
     tool_files: [":bionic-generate-version-script"],
     cmd: "$(location :bionic-generate-version-script) riscv64 $(in) $(out)",
+    bazel_module: { bp2build_available: true },
 }
 
 genrule {
@@ -1967,7 +1968,7 @@ cc_library_headers {
             export_system_include_dirs: ["kernel/uapi/asm-arm64"],
         },
         riscv64: {
-            export_include_dirs: ["kernel/uapi/asm-riscv",],
+            export_system_include_dirs: ["kernel/uapi/asm-riscv"],
         },
         x86: {
             export_system_include_dirs: ["kernel/uapi/asm-x86"],
@@ -2446,6 +2447,8 @@ cc_object {
         "kernel/uapi/asm-riscv",
         "kernel/uapi",
     ],
+
+    bazel_module: { bp2build_available: true },
 }
 
 cc_object {
