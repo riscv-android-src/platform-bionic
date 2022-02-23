@@ -31,7 +31,7 @@
 
 #if defined __arm__ || defined __aarch64__
 
-//#define DUAL_ARCH
+#define DUAL_ARCH
 #define PRIMARY_ARCH AUDIT_ARCH_AARCH64
 static const struct sock_filter* primary_app_filter = arm64_app_filter;
 static const size_t primary_app_filter_size = arm64_app_filter_size;
