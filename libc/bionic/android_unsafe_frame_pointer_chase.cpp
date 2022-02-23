@@ -72,7 +72,11 @@ __attribute__((no_sanitize("address", "hwaddress"))) size_t android_unsafe_frame
 
   size_t num_frames = 0;
   while (1) {
+#if (defined(__riscv) && (__riscv_xlen == 64))
+    auto* frame = reinterpret_cast<frame_record*>(begin - 16);
+#else
     auto* frame = reinterpret_cast<frame_record*>(begin);
+#endif
     if (num_frames < num_entries) {
       buf[num_frames] = __bionic_clear_pac_bits(frame->return_addr);
     }
