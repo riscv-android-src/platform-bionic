@@ -181,7 +181,7 @@ TEST(fenv, fedisableexcept_fegetexcept) {
 }
 
 TEST(fenv, feenableexcept_fegetexcept) {
-#if defined(__aarch64__) || defined(__arm__)
+#if defined(__aarch64__) || defined(__arm__) || (defined(__riscv) && (__riscv_xlen == 64))
   // ARM doesn't support this. They used to if you go back far enough, but it was removed in
   // the Cortex-A8 between r3p1 and r3p2.
   ASSERT_EQ(-1, feenableexcept(FE_INVALID));
@@ -194,19 +194,10 @@ TEST(fenv, feenableexcept_fegetexcept) {
   ASSERT_EQ(0, fegetexcept());
   ASSERT_EQ(-1, feenableexcept(FE_INEXACT));
   ASSERT_EQ(0, fegetexcept());
+#ifndef __riscv
   ASSERT_EQ(-1, feenableexcept(FE_DENORMAL));
   ASSERT_EQ(0, fegetexcept());
-#elif (defined(__riscv) && (__riscv_xlen == 64))
-  ASSERT_EQ(-1, feenableexcept(FE_INVALID));
-  ASSERT_EQ(0, fegetexcept());
-  ASSERT_EQ(-1, feenableexcept(FE_DIVBYZERO));
-  ASSERT_EQ(0, fegetexcept());
-  ASSERT_EQ(-1, feenableexcept(FE_OVERFLOW));
-  ASSERT_EQ(0, fegetexcept());
-  ASSERT_EQ(-1, feenableexcept(FE_UNDERFLOW));
-  ASSERT_EQ(0, fegetexcept());
-  ASSERT_EQ(-1, feenableexcept(FE_INEXACT));
-  ASSERT_EQ(0, fegetexcept());
+#endif
 #else
   // We can't recover from SIGFPE, so sacrifice a child...
   pid_t pid = fork();
