@@ -29,8 +29,8 @@
 #include <stdint.h>
 #include <fenv.h>
 
-# define __get_fcw(cw) __asm__ volatile ("frsr %0" : "=r" (cw))
-# define __set_fcw(cw) __asm__ volatile ("fssr %z0" : : "r" (cw))
+# define __get_fcw(cw) __asm__ volatile ("frcsr %0" : "=r" (cw))
+# define __set_fcw(cw) __asm__ volatile ("fscsr %z0" : : "r" (cw))
 
 const fenv_t __fe_dfl_env = 0;
 
@@ -95,7 +95,9 @@ int fegetround(void)
 
 int fesetround(int round)
 {
-  round &= FE_UPWARD;
+  if (round < FE_ROUNDMODE_MIN || round > FE_ROUNDMODE_MAX) {
+    return -1;
+  }
   asm volatile ("fsrm %z0" : : "r" (round));
   return 0;
 }

@@ -43,10 +43,17 @@ typedef unsigned int fenv_t;
 #define FE_INVALID    0x10
 #define FE_ALL_EXCEPT (FE_DIVBYZERO | FE_INEXACT | FE_INVALID | FE_OVERFLOW | FE_UNDERFLOW)
 
-/* Rounding modes. */
+/*
+ * Rounding modes.
+ * Currently, we have not supported FE_TOMM (Round to Nearest, ties to Max Magnitude).
+ */
 #define FE_TONEAREST  0x0
 #define FE_TOWARDZERO 0x1
 #define FE_DOWNWARD   0x2
 #define FE_UPWARD     0x3
+#define FE_TOMM       0x4
+
+#define FE_ROUNDMODE_MIN FE_TONEAREST
+#define FE_ROUNDMODE_MAX FE_UPWARD
 
 __END_DECLS
