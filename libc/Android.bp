@@ -656,8 +656,8 @@ cc_library_static {
             srcs: [
                 "upstream-openbsd/lib/libc/string/strcmp.c",
                 "upstream-openbsd/lib/libc/string/strlen.c",
-			],
-		},
+            ],
+        },
         x86: {
             exclude_srcs: [
                 "upstream-openbsd/lib/libc/string/memchr.c",
