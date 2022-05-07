@@ -47,158 +47,158 @@
 
 ENTRY(setjmp)
 __BIONIC_WEAK_ASM_FOR_NATIVE_BRIDGE(setjmp)
-	li	a1, 1
-	tail PIC_PLT(sigsetjmp)
+  li   a1, 1
+  tail PIC_PLT(sigsetjmp)
 END(setjmp)
 
 ENTRY(_setjmp)
 __BIONIC_WEAK_ASM_FOR_NATIVE_BRIDGE(_setjmp)
-	li	a1, 0
-	tail PIC_PLT(sigsetjmp)
+  li   a1, 0
+  tail PIC_PLT(sigsetjmp)
 END(_setjmp)
 
 // int sigsetjmp(sigjmp_buf env, int save_signal_mask);
 ENTRY(sigsetjmp)
 __BIONIC_WEAK_ASM_FOR_NATIVE_BRIDGE(sigsetjmp)
-	addi	sp, sp, -24
-	sd	a0, 8(sp)
-	sd	ra, 16(sp)
+  addi sp, sp, -24
+  sd   a0, 8(sp)
+  sd   ra, 16(sp)
 
-	mv	a0, a1
-	call PIC_PLT(__bionic_setjmp_cookie_get)
+  mv   a0, a1
+  call PIC_PLT(__bionic_setjmp_cookie_get)
 
-	// Record setjmp cookie whether or not we're saving the signal mask.
-	// note the save_signal_mask will be saved in env and be retrieved later
-	// in siglongjmp to judge if retore is needed
-	mv	a1, a0
-	ld      a0, 8(sp)
-	sd	a1, 0(a0)
-	andi    a1, a1, 1
+  // Record setjmp cookie whether or not we're saving the signal mask.
+  // note the save_signal_mask will be saved in env and be retrieved later
+  // in siglongjmp to judge if retore is needed
+  mv   a1, a0
+  ld   a0, 8(sp)
+  sd   a1, 0(a0)
+  andi a1, a1, 1
 
-	// Do we need to save the signal mask?
-	beqz	a1, 1f
+  // Do we need to save the signal mask?
+  beqz a1, 1f
 
-	// Save current signal mask.
-	// int sigprocmask(int how, const sigset_t *set, sigset_t *oldset)
-	// The 'how'/a0 argument is ignored if set is NULL.
-	li	a1, 0 // set = NULL
-	addi	a2, a0, 8 // oldset
-	call PIC_PLT(sigprocmask)
-	ld	a1, 0(sp)
+  // Save current signal mask.
+  // int sigprocmask(int how, const sigset_t *set, sigset_t *oldset)
+  // The 'how'/a0 argument is ignored if set is NULL.
+  li   a1, 0 // set = NULL
+  addi a2, a0, 8 // oldset
+  call PIC_PLT(sigprocmask)
+  ld   a1, 0(sp)
 1:
-	// Restore original a0 and ra.
-	ld	a0, 8(sp)
-	ld	ra, 16(sp)
-	addi	sp, sp, 24
+  // Restore original a0 and ra.
+  ld   a0, 8(sp)
+  ld   ra, 16(sp)
+  addi sp, sp, 24
 
-	// Save the callee-save registers.
-        sd	ra, 16(a0)
-        sd	s0, 24(a0)
-        sd	s1, 32(a0)
-        sd	s2, 40(a0)
-        sd	s3, 48(a0)
-        sd	s4, 56(a0)
-        sd	s5, 64(a0)
-        sd	s6, 72(a0)
-        sd	s7, 80(a0)
-        sd	s8, 88(a0)
-        sd	s9, 96(a0)
-        sd	s10, 104(a0)
-        sd	s11, 112(a0)
-        sd	sp, 120(a0)
+  // Save the callee-save registers.
+  sd ra, 16(a0)
+  sd s0, 24(a0)
+  sd s1, 32(a0)
+  sd s2, 40(a0)
+  sd s3, 48(a0)
+  sd s4, 56(a0)
+  sd s5, 64(a0)
+  sd s6, 72(a0)
+  sd s7, 80(a0)
+  sd s8, 88(a0)
+  sd s9, 96(a0)
+  sd s10, 104(a0)
+  sd s11, 112(a0)
+  sd sp, 120(a0)
 
-        fsd	fs0, 128(a0)
-        fsd	fs1, 136(a0)
-        fsd	fs2, 144(a0)
-        fsd	fs3, 152(a0)
-        fsd	fs4, 160(a0)
-        fsd	fs5, 168(a0)
-        fsd	fs6, 176(a0)
-        fsd	fs7, 184(a0)
-        fsd	fs8, 192(a0)
-        fsd	fs9, 200(a0)
-        fsd	fs10, 208(a0)
-        fsd	fs11, 216(a0)
+  fsd fs0, 128(a0)
+  fsd fs1, 136(a0)
+  fsd fs2, 144(a0)
+  fsd fs3, 152(a0)
+  fsd fs4, 160(a0)
+  fsd fs5, 168(a0)
+  fsd fs6, 176(a0)
+  fsd fs7, 184(a0)
+  fsd fs8, 192(a0)
+  fsd fs9, 200(a0)
+  fsd fs10, 208(a0)
+  fsd fs11, 216(a0)
 
-	li	a0, 0
-	ret
+  li  a0, 0
+  ret
 END(sigsetjmp)
 
 // void siglongjmp(sigjmp_buf env, int value);
 ENTRY(siglongjmp)
 __BIONIC_WEAK_ASM_FOR_NATIVE_BRIDGE(siglongjmp)
-	// Do we need to restore the signal mask?
-	ld	a2, 0(a0)
-	andi    a2, a2, 1
-	beqz	a2, 1f
+  // Do we need to restore the signal mask?
+  ld   a2, 0(a0)
+  andi a2, a2, 1
+  beqz a2, 1f
 
-	addi	sp, sp, -16
-	sd	a0, 0(sp)
-	sd	ra, 8(sp)
+  addi sp, sp, -16
+  sd   a0, 0(sp)
+  sd   ra, 8(sp)
 
-	mv	t0, a1
+  mv   t0, a1
 
-	// Restore the signal mask.
-	// int sigprocmask(int how, const sigset_t *set, sigset_t *oldset)
-	mv	a2, a0
-	li	a0, 2 // SIG_SETMASK
-	addi	a1, a2, 8 // set
-	li	a2, 0 // oldset
-	call PIC_PLT(sigprocmask)
-	mv	a1, t0
+  // Restore the signal mask.
+  // int sigprocmask(int how, const sigset_t *set, sigset_t *oldset)
+  mv   a2, a0
+  li   a0, 2 // SIG_SETMASK
+  addi a1, a2, 8 // set
+  li   a2, 0 // oldset
+  call PIC_PLT(sigprocmask)
+  mv   a1, t0
 
-	ld	a0, 0(sp)
-	ld	ra, 8(sp)
-	addi	sp, sp, 16
+  ld   a0, 0(sp)
+  ld   ra, 8(sp)
+  addi sp, sp, 16
 
-	ld      a2, 0(a0)
+  ld   a2, 0(a0)
 1:
-	// Restore the callee-save registers.
-        ld	ra, 16(a0)
-        ld	s0, 24(a0)
-        ld	s1, 32(a0)
-        ld	s2, 40(a0)
-        ld	s3, 48(a0)
-        ld	s4, 56(a0)
-        ld	s5, 64(a0)
-        ld	s6, 72(a0)
-        ld	s7, 80(a0)
-        ld	s8, 88(a0)
-        ld	s9, 96(a0)
-        ld	s10, 104(a0)
-        ld	s11, 112(a0)
-        ld	sp, 120(a0)
+  // Restore the callee-save registers.
+  ld ra, 16(a0)
+  ld s0, 24(a0)
+  ld s1, 32(a0)
+  ld s2, 40(a0)
+  ld s3, 48(a0)
+  ld s4, 56(a0)
+  ld s5, 64(a0)
+  ld s6, 72(a0)
+  ld s7, 80(a0)
+  ld s8, 88(a0)
+  ld s9, 96(a0)
+  ld s10, 104(a0)
+  ld s11, 112(a0)
+  ld sp, 120(a0)
 
-	addi	sp, sp, -24
-	sd	ra, 0(sp)
-	sd	a0, 8(sp)
-	sd	a1, 16(sp)
-	ld	a0, 0(a0)
-	call PIC_PLT(__bionic_setjmp_cookie_check)
-	ld	ra, 0(sp)
-	ld	a0, 8(sp)
-	ld	a1, 16(sp)
-	addi	sp, sp, 24
+  addi sp, sp, -24
+  sd   ra, 0(sp)
+  sd   a0, 8(sp)
+  sd   a1, 16(sp)
+  ld   a0, 0(a0)
+  call PIC_PLT(__bionic_setjmp_cookie_check)
+  ld   ra, 0(sp)
+  ld   a0, 8(sp)
+  ld   a1, 16(sp)
+  addi sp, sp, 24
 
-        fld	fs0, 128(a0)
-        fld	fs1, 136(a0)
-        fld	fs2, 144(a0)
-        fld	fs3, 152(a0)
-        fld	fs4, 160(a0)
-        fld	fs5, 168(a0)
-        fld	fs6, 176(a0)
-        fld	fs7, 184(a0)
-        fld	fs8, 192(a0)
-        fld	fs9, 200(a0)
-        fld	fs10, 208(a0)
-        fld	fs11, 216(a0)
+  fld	fs0, 128(a0)
+  fld	fs1, 136(a0)
+  fld	fs2, 144(a0)
+  fld	fs3, 152(a0)
+  fld	fs4, 160(a0)
+  fld	fs5, 168(a0)
+  fld	fs6, 176(a0)
+  fld	fs7, 184(a0)
+  fld	fs8, 192(a0)
+  fld	fs9, 200(a0)
+  fld	fs10, 208(a0)
+  fld	fs11, 216(a0)
 
-	// Set return value.
-	beqz	a1, 2f
-	li	a0, 1
+  // Set return value.
+  beqz a1, 2f
+  li   a0, 1
 2:
-	mv	a0, a1
-	ret
+  mv	a0, a1
+  ret
 END(siglongjmp)
 
 ALIAS_SYMBOL(longjmp, siglongjmp)
