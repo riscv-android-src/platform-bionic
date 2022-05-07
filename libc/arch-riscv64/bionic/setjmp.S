@@ -29,28 +29,32 @@
 #include <private/bionic_asm.h>
 #include <private/bionic_constants.h>
 
+// The internal structure of a jmp_buf is totally private.
+// Current layout (changes from release to release):
+//
+// word   name            description
+// 0      sigflag/cookie  setjmp cookie in top 31 bits, signal mask flag in low bit
+// 1      sigmask         64-bit signal mask
+// 2      ra
+// 3      s0
+// ......
+// 14     s11
+// 15     sp
+// 16     fs0
+// ......
+// 27     fs11
+// _JBLEN: defined in bionic/libc/include/setjmp.h
+
 ENTRY(setjmp)
 __BIONIC_WEAK_ASM_FOR_NATIVE_BRIDGE(setjmp)
 	li	a1, 1
-#ifdef __PIC__
-	auipc	a2, 0
-	/* FIXME:riscv */
-	jalr    x0, 42(a2)
-#else
-	j	sigsetjmp
-#endif
-
+	tail PIC_PLT(sigsetjmp)
 END(setjmp)
 
 ENTRY(_setjmp)
 __BIONIC_WEAK_ASM_FOR_NATIVE_BRIDGE(_setjmp)
 	li	a1, 0
-#ifdef __PIC__
-	auipc	a2, 0
-	jalr    x0, 18(a2)
-#else
-	j	sigsetjmp
-#endif
+	tail PIC_PLT(sigsetjmp)
 END(_setjmp)
 
 // int sigsetjmp(sigjmp_buf env, int save_signal_mask);
@@ -61,31 +65,33 @@ __BIONIC_WEAK_ASM_FOR_NATIVE_BRIDGE(sigsetjmp)
 	sd	ra, 16(sp)
 
 	mv	a0, a1
-#ifdef __PIC__
-	call	__bionic_setjmp_cookie_get@plt
-#else
-	j	__bionic_setjmp_cookie_get
-#endif
+	call PIC_PLT(__bionic_setjmp_cookie_get)
+
+	// Record setjmp cookie whether or not we're saving the signal mask.
+	// note the save_signal_mask will be saved in env and be retrieved later
+	// in siglongjmp to judge if retore is needed
 	mv	a1, a0
 	ld      a0, 8(sp)
 	sd	a1, 0(a0)
 	andi    a1, a1, 1
 
+	// Do we need to save the signal mask?
 	beqz	a1, 1f
 
-	li	a1, 0
-	addi	a2, a0, 8
-#ifdef __PIC__
-	call	sigprocmask@plt
-#else
-	j	sigprocmask
-#endif
+	// Save current signal mask.
+	// int sigprocmask(int how, const sigset_t *set, sigset_t *oldset)
+	// The 'how'/a0 argument is ignored if set is NULL.
+	li	a1, 0 // set = NULL
+	addi	a2, a0, 8 // oldset
+	call PIC_PLT(sigprocmask)
 	ld	a1, 0(sp)
 1:
+	// Restore original a0 and ra.
 	ld	a0, 8(sp)
 	ld	ra, 16(sp)
 	addi	sp, sp, 24
-	
+
+	// Save the callee-save registers.
         sd	ra, 16(a0)
         sd	s0, 24(a0)
         sd	s1, 32(a0)
@@ -121,6 +127,7 @@ END(sigsetjmp)
 // void siglongjmp(sigjmp_buf env, int value);
 ENTRY(siglongjmp)
 __BIONIC_WEAK_ASM_FOR_NATIVE_BRIDGE(siglongjmp)
+	// Do we need to restore the signal mask?
 	ld	a2, 0(a0)
 	andi    a2, a2, 1
 	beqz	a2, 1f
@@ -131,15 +138,13 @@ __BIONIC_WEAK_ASM_FOR_NATIVE_BRIDGE(siglongjmp)
 
 	mv	t0, a1
 
+	// Restore the signal mask.
+	// int sigprocmask(int how, const sigset_t *set, sigset_t *oldset)
 	mv	a2, a0
-	li	a0, 2
-	addi	a1, a2, 8
-	li	a2, 0
-#ifdef __PIC__
-	call	sigprocmask@plt
-#else
-	j	sigprocmask
-#endif
+	li	a0, 2 // SIG_SETMASK
+	addi	a1, a2, 8 // set
+	li	a2, 0 // oldset
+	call PIC_PLT(sigprocmask)
 	mv	a1, t0
 
 	ld	a0, 0(sp)
@@ -148,6 +153,7 @@ __BIONIC_WEAK_ASM_FOR_NATIVE_BRIDGE(siglongjmp)
 
 	ld      a2, 0(a0)
 1:
+	// Restore the callee-save registers.
         ld	ra, 16(a0)
         ld	s0, 24(a0)
         ld	s1, 32(a0)
@@ -168,11 +174,7 @@ __BIONIC_WEAK_ASM_FOR_NATIVE_BRIDGE(siglongjmp)
 	sd	a0, 8(sp)
 	sd	a1, 16(sp)
 	ld	a0, 0(a0)
-#ifdef __PIC__
-	call	__bionic_setjmp_cookie_check@plt
-#else
-	jal	__bionic_setjmp_cookie_check
-#endif
+	call PIC_PLT(__bionic_setjmp_cookie_check)
 	ld	ra, 0(sp)
 	ld	a0, 8(sp)
 	ld	a1, 16(sp)
