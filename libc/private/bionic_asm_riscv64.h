@@ -37,6 +37,12 @@
 
 #pragma once
 
+#ifdef __PIC__
+    #define PIC_PLT(x)    x@plt
+#else
+    #define PIC_PLT(x)    x
+#endif
+
 #define __bionic_asm_align 16
 
 #undef __bionic_asm_function_type
