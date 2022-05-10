@@ -3,7 +3,7 @@
 #include <private/bionic_asm.h>
 
 #  define LABLE_ALIGN   \
-        .balignw 16, 0x00000013
+        .balignw 16, 0x00000001
 
 ENTRY(memcpy_generic)
 .L_to_memcpy:
