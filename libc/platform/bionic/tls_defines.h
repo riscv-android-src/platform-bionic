@@ -116,19 +116,25 @@
 
 #elif (defined(__riscv) && (__riscv_xlen == 64))
 
-#define MIN_TLS_SLOT              -10
+// RISC-V ELF Specification[1] specifies that: RISC-V uses Variant I as described
+// by the ELF TLS specification, with tp containing the address one past the end
+// of the TCB.
+//
+// [1]: RISC-V ELF Specification. Section: Thread Local Storage
+// https://github.com/riscv-non-isa/riscv-elf-psabi-doc/blob/master/riscv-elf.adoc#thread-local-storage
 
-#define TLS_SLOT_SELF             -10
-#define TLS_SLOT_THREAD_ID        -9
-#define TLS_SLOT_APP              -8 // was historically used for errno
-#define TLS_SLOT_OPENGL           -7
-#define TLS_SLOT_OPENGL_API       -6
-#define TLS_SLOT_STACK_GUARD      -5
-#define TLS_SLOT_SANITIZER        -4 // was historically used for dlerror
-#define TLS_SLOT_ART_THREAD_SELF  -3
-#define TLS_SLOT_DTV              -2
-#define TLS_SLOT_BIONIC_TLS       -1
-#define MAX_TLS_SLOT              -1 // update this value when reserving a slot
+#define MIN_TLS_SLOT             (-9) // update this value when reserving a slot
+
+#define TLS_SLOT_BIONIC_TLS      (-9)
+#define TLS_SLOT_DTV             (-8)
+#define TLS_SLOT_THREAD_ID       (-7)
+#define TLS_SLOT_APP             (-6) // was historically used for errno
+#define TLS_SLOT_OPENGL          (-5)
+#define TLS_SLOT_OPENGL_API      (-4)
+#define TLS_SLOT_STACK_GUARD     (-3)
+#define TLS_SLOT_SANITIZER       (-2) // was historically used for dlerror
+#define TLS_SLOT_ART_THREAD_SELF (-1)
+#define MAX_TLS_SLOT             (-1)
 
 #endif
 
