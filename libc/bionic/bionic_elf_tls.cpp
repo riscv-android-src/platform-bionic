@@ -136,10 +136,15 @@ size_t StaticTlsLayout::reserve_exe_segment_and_tcb(const TlsSegment* exe_segmen
   const size_t max_align = MAX(alignof(bionic_tcb), exe_segment->alignment);
   offset_bionic_tcb_ = reserve(sizeof(bionic_tcb), max_align);
   return offset_bionic_tcb_ - exe_size;
+
 #elif (defined(__riscv) && (__riscv_xlen == 64))
+  // First reserve enough space for the TCB before the executable segment.
   offset_bionic_tcb_ = reserve(sizeof(bionic_tcb), 1);
+
+  // Then reserve the segment itself.
   const size_t exe_size = round_up_with_overflow_check(exe_segment->size, exe_segment->alignment);
   return reserve(exe_size, 1);
+
 #else
 #error "Unrecognized architecture"
 #endif
@@ -316,7 +321,7 @@ __attribute__((noinline)) static void* tls_get_addr_slow_path(const TlsIndex* ti
   }
 
 #if (defined(__riscv) && (__riscv_xlen == 64))
-  return static_cast<char*>(mod_ptr) + ti->offset + 0x800;
+  return static_cast<char*>(mod_ptr) + ti->offset + TLS_DTV_OFFSET;
 #else
   return static_cast<char*>(mod_ptr) + ti->offset;
 #endif
@@ -340,7 +345,7 @@ extern "C" void* TLS_GET_ADDR(const TlsIndex* ti) TLS_GET_ADDR_CCONV {
     void* mod_ptr = dtv->modules[__tls_module_id_to_idx(ti->module_id)];
     if (__predict_true(mod_ptr != nullptr)) {
 #if (defined(__riscv) && (__riscv_xlen == 64))
-      return static_cast<char*>(mod_ptr) + ti->offset + 0x800;
+      return static_cast<char*>(mod_ptr) + ti->offset + TLS_DTV_OFFSET;
 #else
       return static_cast<char*>(mod_ptr) + ti->offset;
 #endif
