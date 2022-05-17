@@ -51,7 +51,7 @@
 #elif defined(__x86_64__)
 #define _JBLEN 11
 #elif (defined(__riscv) && (__riscv_xlen == 64))
-#define _JBLEN 28
+#define _JBLEN 29
 #endif
 
 typedef long sigjmp_buf[_JBLEN + 1];
