@@ -320,11 +320,7 @@ __attribute__((noinline)) static void* tls_get_addr_slow_path(const TlsIndex* ti
     }
   }
 
-#if (defined(__riscv) && (__riscv_xlen == 64))
   return static_cast<char*>(mod_ptr) + ti->offset + TLS_DTV_OFFSET;
-#else
-  return static_cast<char*>(mod_ptr) + ti->offset;
-#endif
 }
 
 // Returns the address of a thread's TLS memory given a module ID and an offset
@@ -344,11 +340,7 @@ extern "C" void* TLS_GET_ADDR(const TlsIndex* ti) TLS_GET_ADDR_CCONV {
   if (__predict_true(generation == dtv->generation)) {
     void* mod_ptr = dtv->modules[__tls_module_id_to_idx(ti->module_id)];
     if (__predict_true(mod_ptr != nullptr)) {
-#if (defined(__riscv) && (__riscv_xlen == 64))
       return static_cast<char*>(mod_ptr) + ti->offset + TLS_DTV_OFFSET;
-#else
-      return static_cast<char*>(mod_ptr) + ti->offset;
-#endif
     }
   }
 

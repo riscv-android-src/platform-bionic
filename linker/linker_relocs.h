@@ -97,6 +97,7 @@
 #define R_GENERIC_TLS_DTPMOD    R_RISCV_TLS_DTPMOD64
 #define R_GENERIC_TLS_DTPREL    R_RISCV_TLS_DTPREL64
 #define R_GENERIC_TLS_TPREL     R_RISCV_TLS_TPREL64
+// TBD: riscv has not supported TLSDESC actually.
 #define R_GENERIC_TLSDESC       R_RISCV_TLS_GOT_HI20
 
 #endif
