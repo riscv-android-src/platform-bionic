@@ -213,4 +213,6 @@ void __notify_thread_exit_callbacks();
 // [2]: Documentation of TLS data structures
 // https://github.com/riscv-non-isa/riscv-elf-psabi-doc/issues/53
 #define TLS_DTV_OFFSET 0x800
+#else
+#define TLS_DTV_OFFSET 0
 #endif

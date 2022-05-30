@@ -371,7 +371,7 @@ static inline void* get_tls_block_for_this_thread(const soinfo_tls* si_tls, bool
     char* static_tls = reinterpret_cast<char*>(__get_bionic_tcb()) - layout.offset_bionic_tcb();
     return static_tls + tls_mod.static_offset;
   } else if (should_alloc) {
-    const TlsIndex ti { si_tls->module_id, 0 };
+    const TlsIndex ti { si_tls->module_id, static_cast<size_t>(0 - TLS_DTV_OFFSET) };
     return TLS_GET_ADDR(&ti);
   } else {
     TlsDtv* dtv = __get_tcb_dtv(__get_bionic_tcb());
@@ -2287,11 +2287,7 @@ bool do_dlsym(void* handle,
           return false;
         }
         void* tls_block = get_tls_block_for_this_thread(tls_module, /*should_alloc=*/true);
-#if (defined(__riscv) && (__riscv_xlen == 64))
-        *symbol = static_cast<char*>(tls_block) + sym->st_value - TLS_DTV_OFFSET;
-#else
         *symbol = static_cast<char*>(tls_block) + sym->st_value;
-#endif
       } else {
         *symbol = reinterpret_cast<void*>(found->resolve_symbol_address(sym));
       }
