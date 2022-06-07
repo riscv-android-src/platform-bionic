@@ -60,6 +60,7 @@ libc_common_flags = [
     "-Werror=pointer-to-int-cast",
     "-Werror=int-to-pointer-cast",
     "-Werror=type-limits",
+    "-Werror",
 
     // Clang's exit-time destructor registration hides __dso_handle, but
     // __dso_handle needs to have default visibility on ARM32. See b/73485611.
