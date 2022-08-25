@@ -100,6 +100,10 @@ static void check_hw_feature_supported(pid_t child, HwFeature feature) {
       GTEST_SKIP() << "Kernel reports zero hardware breakpoints";
     }
   }
+#elif (defined(__riscv) && (__riscv_xlen == 64))
+  UNUSED(child);
+  UNUSED(feature);
+  GTEST_SKIP() << "Hardware debug has not been supported in kernel";
 #else
   // We assume watchpoints and breakpoints are always supported on x86.
   UNUSED(child);
