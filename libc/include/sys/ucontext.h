@@ -314,6 +314,8 @@ typedef struct ucontext {
 } ucontext_t;
 
 #elif (defined(__riscv) && (__riscv_xlen == 64))
+#include <asm/sigcontext.h>
+#include <asm/ucontext.h>
 
 #define REG_PC 0
 #define REG_RA 1
